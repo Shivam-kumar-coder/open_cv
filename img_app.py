@@ -2,11 +2,14 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import cv2
 import numpy as np
+from PIL import Image
+import io
 st.sidebar.title('image editor')
 img=st.sidebar.file_uploader("choose your image")
 c=st.sidebar.selectbox("select your editor",("sketch","Gray"))
+st.title("Image convertor")
 if c=="sketch":
-    a=st.sidebar.number_input("enter scale")
+    a=st.sidebar.number_input("Adjust Pencil Darkness")
 b=st.sidebar.button("view image")
 
 if img is not None:
@@ -26,11 +29,20 @@ if img is not None:
     if b:
         if c=="sketch":
             img_pencil=cv2.divide(img_g,255-img_sm,scale=a)
-            
-          
             st.image(img_pencil,caption='pencil sketch')
+            result_image = Image.fromarray(img_pencil)
+            buf = io.BytesIO()
+            result_image.save(buf, format="PNG")
+            byte_im = buf.getvalue()
+
+            st.sidebar.download_button(
+            label="Download Sketch",
+            data=byte_im,
+            file_name="sketch.png",
+            mime="image/png")
         elif c=="Gray":
-            st.image(img_g,caption="Gray")
+            st.image(img_g,caption="Black & white")
+
 
 
 hide_menu = """
