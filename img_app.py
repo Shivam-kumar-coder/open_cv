@@ -6,7 +6,7 @@ from PIL import Image
 import io
 st.sidebar.title('image editor')
 img=st.sidebar.file_uploader("choose your image")
-c=st.sidebar.selectbox("select your editor",("sketch","Gray"))
+c=st.sidebar.selectbox("select your editor",("sketch","Black & white"))
 st.title("Image convertor")
 if c=="sketch":
     a=st.sidebar.number_input("Adjust Pencil Darkness")
@@ -42,6 +42,16 @@ if img is not None:
             mime="image/png")
         elif c=="Gray":
             st.image(img_g,caption="Black & white")
+            result_image = Image.fromarray(img_g)
+            buf = io.BytesIO()
+            result_image.save(buf, format="PNG")
+            byte_im = buf.getvalue()
+            
+            st.sidebar.download_button(
+            label="Download Sketch",
+            data=byte_im,
+            file_name="sketch.png",
+            mime="image/png")
 
 
 
