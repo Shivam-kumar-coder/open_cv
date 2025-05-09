@@ -40,7 +40,7 @@ if img is not None:
             data=byte_im,
             file_name="sketch.png",
             mime="image/png")
-        elif c=="Gray":
+        elif c=="Black & white":
             st.image(img_g,caption="Black & white")
             result_image = Image.fromarray(img_g)
             buf = io.BytesIO()
